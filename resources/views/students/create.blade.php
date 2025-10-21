@@ -15,7 +15,7 @@
         </div>
     @endif
 
-    <form method="POST" action="/students" class="max-w-2xl">
+    <form method="POST" action="{{ route('students.store') }}" class="max-w-2xl">
         @csrf
 
         <!-- Name -->
@@ -113,7 +113,7 @@
                 💾 Saqlash
             </button>
             <a 
-                href="/students"
+                href="{{ route('students.index') }}"
                 class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 px-8 rounded-lg transition">
                 ❌ Bekor qilish
             </a>

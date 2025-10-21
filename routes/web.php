@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Models\Job;
 use App\Models\Student;
+use App\Http\Controllers\StudentController;
 
 Route::get('/', function () {
     return view('home');
@@ -90,23 +91,6 @@ Route::get('/user/{id}', function ($id) {
     }
 });
 
-
-
-Route::get('/students', function () {
-    $students = Student::paginate(15);
-
-    return view('students', [
-        'students' => $students
-    ]);
-});
-
-
-Route::get('/student/{id}', function ($id) {
-    
-    $student = Student::find($id);
-    return view('student', ['student' => $student]);
-});
-
 // Task 13: Debug
 Route::get('/lazy', function() {
     $posts = App\Models\Post::all();
@@ -118,85 +102,103 @@ Route::get('/eager', function() {
     return view('eager', compact('posts'));
 });
 
-// Task 16: Student Create Form
-Route::get('/students/create', function () {
-    return view('students.create');
-});
+// Route::get('/students', function () {
+//     $students = Student::paginate(15);
 
-Route::post('/students', function () {
-    // Task 17: Validation qoidalari
-    request()->validate([
-        'name' => ['required', 'min:3', 'max:100'],
-        'lastname' => ['required', 'min:5', 'max:100'],
-        'email' => ['required', 'email', 'unique:students,email'],
-        'age' => ['nullable', 'integer', 'min:1', 'max:120'],
-    ], [
-        // O'zbek tilida xato xabarlari
-        'name.required' => 'Ism kiritish majburiy!',
-        'name.min' => 'Ism kamida 3 ta belgidan iborat bo\'lishi kerak!',
-        'lastname.required' => 'Familiya kiritish majburiy!',
-        'lastname.min' => 'Familiya kamida 5 ta belgidan iborat bo\'lishi kerak!',
-        'email.required' => 'Email kiritish majburiy!',
-        'email.email' => 'Email formati noto\'g\'ri!',
-        'email.unique' => 'Bu email allaqachon ro\'yxatdan o\'tgan!',
-        'age.integer' => 'Yosh butun son bo\'lishi kerak!',
-        'age.min' => 'Yosh kamida 1 bo\'lishi kerak!',
-        'age.max' => 'Yosh 120 dan oshmasligi kerak!',
-    ]);
+//     return view('students', [
+//         'students' => $students
+//     ]);
+// });
 
-    // Student yaratish
-    App\Models\Student::create([
-        'name' => request('name'),
-        'lastname' => request('lastname'),
-        'email' => request('email'),
-        'age' => request('age'),
-    ]);
 
-    // Muvaffaqiyatli redirect
-    return redirect('/students')->with('success', '✅ Student muvaffaqiyatli qo\'shildi!');
-});
-
-// Task 18: Student Update (Edit Form)
-Route::get('/student/{id}/edit', function ($id) {
-    $student = App\Models\Student::findOrFail($id);
-    return view('students.edit', ['student' => $student]);
-});
-
-// Task 18: Student Update (Submit)
-Route::patch('/student/{id}', function ($id) {
-    $student = App\Models\Student::findOrFail($id);
+// Route::get('/student/{id}', function ($id) {
     
-    // Validation
-    request()->validate([
-        'name' => ['required', 'min:3', 'max:100'],
-        'lastname' => ['required', 'min:5', 'max:100'],
-        'email' => ['required', 'email', 'unique:students,email,' . $id],
-        'age' => ['nullable', 'integer', 'min:1', 'max:120'],
-    ], [
-        'name.required' => 'Ism kiritish majburiy!',
-        'name.min' => 'Ism kamida 3 ta belgidan iborat bo\'lishi kerak!',
-        'lastname.required' => 'Familiya kiritish majburiy!',
-        'lastname.min' => 'Familiya kamida 5 ta belgidan iborat bo\'lishi kerak!',
-        'email.required' => 'Email kiritish majburiy!',
-        'email.email' => 'Email formati noto\'g\'ri!',
-        'email.unique' => 'Bu email boshqa student tomonidan ishlatilmoqda!',
-    ]);
+//     $student = Student::find($id);
+//     return view('student', ['student' => $student]);
+// });
 
-    // Update
-    $student->update([
-        'name' => request('name'),
-        'lastname' => request('lastname'),
-        'email' => request('email'),
-        'age' => request('age'),
-    ]);
+// // Task 16: Student Create Form
+// Route::get('/students/create', function () {
+//     return view('students.create');
+// });
 
-    return redirect('/students')->with('success', '✅ Student ma\'lumotlari yangilandi!');
-});
+// Route::post('/students', function () {
+//     // Task 17: Validation qoidalari
+//     request()->validate([
+//         'name' => ['required', 'min:3', 'max:100'],
+//         'lastname' => ['required', 'min:5', 'max:100'],
+//         'email' => ['required', 'email', 'unique:students,email'],
+//         'age' => ['nullable', 'integer', 'min:1', 'max:120'],
+//     ], [
+//         // O'zbek tilida xato xabarlari
+//         'name.required' => 'Ism kiritish majburiy!',
+//         'name.min' => 'Ism kamida 3 ta belgidan iborat bo\'lishi kerak!',
+//         'lastname.required' => 'Familiya kiritish majburiy!',
+//         'lastname.min' => 'Familiya kamida 5 ta belgidan iborat bo\'lishi kerak!',
+//         'email.required' => 'Email kiritish majburiy!',
+//         'email.email' => 'Email formati noto\'g\'ri!',
+//         'email.unique' => 'Bu email allaqachon ro\'yxatdan o\'tgan!',
+//         'age.integer' => 'Yosh butun son bo\'lishi kerak!',
+//         'age.min' => 'Yosh kamida 1 bo\'lishi kerak!',
+//         'age.max' => 'Yosh 120 dan oshmasligi kerak!',
+//     ]);
 
-// Task 18: Student Delete
-Route::delete('/student/{id}', function ($id) {
-    $student = App\Models\Student::findOrFail($id);
-    $student->delete();
+//     // Student yaratish
+//     App\Models\Student::create([
+//         'name' => request('name'),
+//         'lastname' => request('lastname'),
+//         'email' => request('email'),
+//         'age' => request('age'),
+//     ]);
+
+//     // Muvaffaqiyatli redirect
+//     return redirect('/students')->with('success', '✅ Student muvaffaqiyatli qo\'shildi!');
+// });
+
+// // Task 18: Student Update (Edit Form)
+// Route::get('/student/{id}/edit', function ($id) {
+//     $student = App\Models\Student::findOrFail($id);
+//     return view('students.edit', ['student' => $student]);
+// });
+
+// // Task 18: Student Update (Submit)
+// Route::patch('/student/{id}', function ($id) {
+//     $student = App\Models\Student::findOrFail($id);
     
-    return redirect('/students')->with('success', '🗑️ Student o\'chirildi!');
-});
+//     // Validation
+//     request()->validate([
+//         'name' => ['required', 'min:3', 'max:100'],
+//         'lastname' => ['required', 'min:5', 'max:100'],
+//         'email' => ['required', 'email', 'unique:students,email,' . $id],
+//         'age' => ['nullable', 'integer', 'min:1', 'max:120'],
+//     ], [
+//         'name.required' => 'Ism kiritish majburiy!',
+//         'name.min' => 'Ism kamida 3 ta belgidan iborat bo\'lishi kerak!',
+//         'lastname.required' => 'Familiya kiritish majburiy!',
+//         'lastname.min' => 'Familiya kamida 5 ta belgidan iborat bo\'lishi kerak!',
+//         'email.required' => 'Email kiritish majburiy!',
+//         'email.email' => 'Email formati noto\'g\'ri!',
+//         'email.unique' => 'Bu email boshqa student tomonidan ishlatilmoqda!',
+//     ]);
+
+//     // Update
+//     $student->update([
+//         'name' => request('name'),
+//         'lastname' => request('lastname'),
+//         'email' => request('email'),
+//         'age' => request('age'),
+//     ]);
+
+//     return redirect('/students')->with('success', '✅ Student ma\'lumotlari yangilandi!');
+// });
+
+// // Task 18: Student Delete
+// Route::delete('/student/{id}', function ($id) {
+//     $student = App\Models\Student::findOrFail($id);
+//     $student->delete();
+    
+//     return redirect('/students')->with('success', '🗑️ Student o\'chirildi!');
+// });
+
+// Task 19: Student Resource Controller
+Route::resource('students', StudentController::class);

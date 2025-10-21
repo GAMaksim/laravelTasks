@@ -155,3 +155,48 @@ Route::post('/students', function () {
     // Muvaffaqiyatli redirect
     return redirect('/students')->with('success', '✅ Student muvaffaqiyatli qo\'shildi!');
 });
+
+// Task 18: Student Update (Edit Form)
+Route::get('/student/{id}/edit', function ($id) {
+    $student = App\Models\Student::findOrFail($id);
+    return view('students.edit', ['student' => $student]);
+});
+
+// Task 18: Student Update (Submit)
+Route::patch('/student/{id}', function ($id) {
+    $student = App\Models\Student::findOrFail($id);
+    
+    // Validation
+    request()->validate([
+        'name' => ['required', 'min:3', 'max:100'],
+        'lastname' => ['required', 'min:5', 'max:100'],
+        'email' => ['required', 'email', 'unique:students,email,' . $id],
+        'age' => ['nullable', 'integer', 'min:1', 'max:120'],
+    ], [
+        'name.required' => 'Ism kiritish majburiy!',
+        'name.min' => 'Ism kamida 3 ta belgidan iborat bo\'lishi kerak!',
+        'lastname.required' => 'Familiya kiritish majburiy!',
+        'lastname.min' => 'Familiya kamida 5 ta belgidan iborat bo\'lishi kerak!',
+        'email.required' => 'Email kiritish majburiy!',
+        'email.email' => 'Email formati noto\'g\'ri!',
+        'email.unique' => 'Bu email boshqa student tomonidan ishlatilmoqda!',
+    ]);
+
+    // Update
+    $student->update([
+        'name' => request('name'),
+        'lastname' => request('lastname'),
+        'email' => request('email'),
+        'age' => request('age'),
+    ]);
+
+    return redirect('/students')->with('success', '✅ Student ma\'lumotlari yangilandi!');
+});
+
+// Task 18: Student Delete
+Route::delete('/student/{id}', function ($id) {
+    $student = App\Models\Student::findOrFail($id);
+    $student->delete();
+    
+    return redirect('/students')->with('success', '🗑️ Student o\'chirildi!');
+});

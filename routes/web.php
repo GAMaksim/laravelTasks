@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Models\Job;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\ProductController;
 
 Route::get('/', function () {
     return view('home');
@@ -220,3 +221,8 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware('auth')->name('dashboard');
+
+// Products - authenticated users only
+Route::middleware(['auth'])->group(function () {
+    Route::resource('products', ProductController::class);
+});

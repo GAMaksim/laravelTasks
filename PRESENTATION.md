@@ -1,6 +1,6 @@
 # 🎤 Laravel Tasks Loyihasi - Tushuntirish
 
-**Taqdimotchi:** Maksim Gavrilov  
+**Taqdimotchi:** Maksim
 **Sana:** 2025-10-21  
 **Loyiha:** Laravel Tasks (Full-Stack Web Application)  
 
@@ -23,7 +23,6 @@
 ### Men kim?
 - **Ism:** Maksim Gavrilov
 - **Maqsad:** Laravel backend developer bo'lish
-- **Loyiha davomiyligi:** 12-15 soat (1-2 kun)
 - **Topshiriqlar:** 30/30 (100% complete)
 
 ### Loyihaning maqsadi?
@@ -492,7 +491,7 @@ Tests:  6 passed (14 assertions)
 ## 🙋 SAVOLLAR?
 
 **GitHub:** https://github.com/GAMaksim/laravelTasks  
-**Email:** pokalenieshudes@gmail.com  
+**Telegram:** @mxwlc
 
 **Rahmat!** 🙏
 

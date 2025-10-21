@@ -41,4 +41,14 @@ class Product extends Model
     {
         return $query->where('stock', '>', 0);
     }
+
+    // Task 30: Search scope
+    public function scopeSearch($query, $search)
+    {
+        return $query->when($search, function ($query, $search) {
+             $query->where('name', 'like', "%{$search}%")
+                ->orWhere('description', 'like', "%{$search}%")
+                ->orWhere('category', 'like', "%{$search}%");
+            }   );
+    }
 }

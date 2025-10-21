@@ -12,10 +12,20 @@ use App\Jobs\StudentJob;
 
 class StudentController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $students = Student::paginate(15);
-        return view('students.index', ['students' => $students]);
+        $search = $request->input('search');
+    
+        $students = Student::with('user')
+                          ->search($search)
+                          ->latest()
+                          ->paginate(15)
+                          ->withQueryString(); // Query string ni saqlab qolish
+    
+        return view('students.index', [
+            'students' => $students,
+            'search' => $search,
+        ]);
     }
 
     public function create()

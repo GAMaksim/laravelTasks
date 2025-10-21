@@ -9,13 +9,20 @@ use Illuminate\Support\Facades\Gate;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $search = $request->input('search');
+    
         $products = Product::with('user')
+                          ->search($search)
                           ->latest()
-                          ->paginate(15);
-
-        return view('products.index', compact('products'));
+                          ->paginate(15)
+                          ->withQueryString();
+    
+        return view('products.index', [
+            'products' => $products,
+            'search' => $search,
+        ]);
     }
 
     public function create()

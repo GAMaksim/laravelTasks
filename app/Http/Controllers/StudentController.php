@@ -6,6 +6,8 @@ use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Auth; // 🆕 Bu qatorni qo'shing
+use App\Mail\StudentPosted;
+use Illuminate\Support\Facades\Mail;
 
 class StudentController extends Controller
 {
@@ -36,17 +38,21 @@ class StudentController extends Controller
             'email.email' => 'Email formati noto\'g\'ri!',
             'email.unique' => 'Bu email allaqachon ro\'yxatdan o\'tgan!',
         ]);
-
-        Student::create([
+    
+        $student = Student::create([
             'name' => $request->name,
             'lastname' => $request->lastname,
             'email' => $request->email,
             'age' => $request->age,
-            'user_id' => Auth::id(), // 🆕 Auth::id() ishlatamiz
+            'user_id' => Auth::id(),
         ]);
-
+    
+        // Task 24: Email yuborish (Created)
+        Mail::to(auth()->user()->email)
+            ->send(new StudentPosted($student, 'created'));
+    
         return redirect()->route('students.index')
-                         ->with('success', '✅ Student muvaffaqiyatli qo\'shildi!');
+                         ->with('success', '✅ Student muvaffaqiyatli qo\'shildi va email yuborildi!');
     }
 
     public function show(string $id)
@@ -68,49 +74,57 @@ class StudentController extends Controller
 
     public function update(Request $request, string $id)
     {
-        $student = Student::findOrFail($id);
+    $student = Student::findOrFail($id);
 
-        if (Gate::denies('edit-student', $student)) {
-            abort(403, 'Bu studentni tahrirlash huquqingiz yo\'q!');
-        }
+    if (Gate::denies('edit-student', $student)) {
+        abort(403, 'Bu studentni tahrirlash huquqingiz yo\'q!');
+    }
 
-        $request->validate([
-            'name' => ['required', 'min:3', 'max:100'],
-            'lastname' => ['required', 'min:5', 'max:100'],
-            'email' => ['required', 'email', 'unique:students,email,' . $id],
-            'age' => ['nullable', 'integer', 'min:1', 'max:120'],
-        ], [
-            'name.required' => 'Ism kiritish majburiy!',
-            'name.min' => 'Ism kamida 3 ta belgidan iborat bo\'lishi kerak!',
-            'lastname.required' => 'Familiya kiritish majburiy!',
-            'lastname.min' => 'Familiya kamida 5 ta belgidan iborat bo\'lishi kerak!',
-            'email.required' => 'Email kiritish majburiy!',
-            'email.email' => 'Email formati noto\'g\'ri!',
-            'email.unique' => 'Bu email boshqa student tomonidan ishlatilmoqda!',
-        ]);
+    $request->validate([
+        'name' => ['required', 'min:3', 'max:100'],
+        'lastname' => ['required', 'min:5', 'max:100'],
+        'email' => ['required', 'email', 'unique:students,email,' . $id],
+        'age' => ['nullable', 'integer', 'min:1', 'max:120'],
+    ], [
+        'name.required' => 'Ism kiritish majburiy!',
+        'name.min' => 'Ism kamida 3 ta belgidan iborat bo\'lishi kerak!',
+        'lastname.required' => 'Familiya kiritish majburiy!',
+        'lastname.min' => 'Familiya kamida 5 ta belgidan iborat bo\'lishi kerak!',
+        'email.required' => 'Email kiritish majburiy!',
+        'email.email' => 'Email formati noto\'g\'ri!',
+        'email.unique' => 'Bu email boshqa student tomonidan ishlatilmoqda!',
+    ]);
 
-        $student->update([
-            'name' => $request->name,
-            'lastname' => $request->lastname,
-            'email' => $request->email,
-            'age' => $request->age,
-        ]);
+    $student->update([
+        'name' => $request->name,
+        'lastname' => $request->lastname,
+        'email' => $request->email,
+        'age' => $request->age,
+    ]);
 
-        return redirect()->route('students.index')
-                         ->with('success', '✅ Student ma\'lumotlari yangilandi!');
+    // Task 24: Email yuborish (Updated)
+    Mail::to($student->user->email)
+        ->send(new StudentPosted($student, 'updated'));
+
+    return redirect()->route('students.index')
+                     ->with('success', '✅ Student ma\'lumotlari yangilandi va email yuborildi!');
     }
 
     public function destroy(string $id)
     {
-        $student = Student::findOrFail($id);
+    $student = Student::findOrFail($id);
 
-        if (Gate::denies('edit-student', $student)) {
-            abort(403, 'Bu studentni o\'chirish huquqingiz yo\'q!');
-        }
+    if (Gate::denies('edit-student', $student)) {
+        abort(403, 'Bu studentni o\'chirish huquqingiz yo\'q!');
+    }
 
-        $student->delete();
+    // Task 24: Email yuborish (Deleted) - O'chirishdan OLDIN!
+    Mail::to($student->user->email)
+        ->send(new StudentPosted($student, 'deleted'));
 
-        return redirect()->route('students.index')
-                         ->with('success', '🗑️ Student o\'chirildi!');
+    $student->delete();
+
+    return redirect()->route('students.index')
+                     ->with('success', '🗑️ Student o\'chirildi va email yuborildi!');
     }
 }

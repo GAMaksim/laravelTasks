@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Models\Job;
-use App\Models\Student;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\StudentController;
 
 Route::get('/', function () {
@@ -201,4 +201,18 @@ Route::get('/eager', function() {
 // });
 
 // Task 19: Student Resource Controller
-Route::resource('students', StudentController::class);
+//Route::resource('students', StudentController::class);
+
+// Task 21-22: Authentication Routes (Manual)
+Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
+Route::post('/register', [AuthController::class, 'register']);
+
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+// Students - faqat authenticated userlar uchun
+Route::middleware(['auth'])->group(function () {
+    Route::resource('students', StudentController::class);
+});

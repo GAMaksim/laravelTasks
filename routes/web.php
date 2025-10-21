@@ -93,7 +93,7 @@ Route::get('/user/{id}', function ($id) {
 
 
 Route::get('/students', function () {
-    $students = Student::all();
+    $students = Student::paginate(15);
 
     return view('students', [
         'students' => $students

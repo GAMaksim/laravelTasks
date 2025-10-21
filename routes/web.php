@@ -117,3 +117,41 @@ Route::get('/eager', function() {
     $posts = App\Models\Post::with('comments')->get();
     return view('eager', compact('posts'));
 });
+
+// Task 16: Student Create Form
+Route::get('/students/create', function () {
+    return view('students.create');
+});
+
+Route::post('/students', function () {
+    // Task 17: Validation qoidalari
+    request()->validate([
+        'name' => ['required', 'min:3', 'max:100'],
+        'lastname' => ['required', 'min:5', 'max:100'],
+        'email' => ['required', 'email', 'unique:students,email'],
+        'age' => ['nullable', 'integer', 'min:1', 'max:120'],
+    ], [
+        // O'zbek tilida xato xabarlari
+        'name.required' => 'Ism kiritish majburiy!',
+        'name.min' => 'Ism kamida 3 ta belgidan iborat bo\'lishi kerak!',
+        'lastname.required' => 'Familiya kiritish majburiy!',
+        'lastname.min' => 'Familiya kamida 5 ta belgidan iborat bo\'lishi kerak!',
+        'email.required' => 'Email kiritish majburiy!',
+        'email.email' => 'Email formati noto\'g\'ri!',
+        'email.unique' => 'Bu email allaqachon ro\'yxatdan o\'tgan!',
+        'age.integer' => 'Yosh butun son bo\'lishi kerak!',
+        'age.min' => 'Yosh kamida 1 bo\'lishi kerak!',
+        'age.max' => 'Yosh 120 dan oshmasligi kerak!',
+    ]);
+
+    // Student yaratish
+    App\Models\Student::create([
+        'name' => request('name'),
+        'lastname' => request('lastname'),
+        'email' => request('email'),
+        'age' => request('age'),
+    ]);
+
+    // Muvaffaqiyatli redirect
+    return redirect('/students')->with('success', '✅ Student muvaffaqiyatli qo\'shildi!');
+});

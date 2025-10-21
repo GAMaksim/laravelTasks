@@ -106,3 +106,14 @@ Route::get('/student/{id}', function ($id) {
     $student = Student::find($id);
     return view('student', ['student' => $student]);
 });
+
+// Task 13: Debug
+Route::get('/lazy', function() {
+    $posts = App\Models\Post::all();
+    return view('lazy', compact('posts'));
+});
+
+Route::get('/eager', function() {
+    $posts = App\Models\Post::with('comments')->get();
+    return view('eager', compact('posts'));
+});

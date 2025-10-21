@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Auth; // 🆕 Bu qatorni qo'shing
 use App\Mail\StudentPosted;
 use Illuminate\Support\Facades\Mail;
-
+use App\Jobs\StudentJob;
 
 class StudentController extends Controller
 {
@@ -24,7 +24,7 @@ class StudentController extends Controller
     }
 
     public function store(Request $request)
-{
+    {
     $request->validate([
         'name' => ['required', 'min:3', 'max:100'],
         'lastname' => ['required', 'min:5', 'max:100'],
@@ -48,17 +48,19 @@ class StudentController extends Controller
         'user_id' => Auth::id(),
     ]);
 
-    // Task 24: Email yuborish (Created) - Variant 2 (eng xavfsiz)
+    // Task 25: Email ni queue orqali yuborish
     $user = Auth::user();
     if ($user && $user->email) {
         Mail::to($user->email)
-            ->send(new StudentPosted($student, 'created'));
+            ->queue(new StudentPosted($student, 'created'));
     }
+
+    // Task 25: StudentJob ni dispatch qilish (log file)
+    StudentJob::dispatch($student, 'created');
 
     return redirect()->route('students.index')
-                     ->with('success', '✅ Student muvaffaqiyatli qo\'shildi va email yuborildi!');
-    }
-
+                     ->with('success', '✅ Student qo\'shildi! Email va log queue ga yuborildi.');
+}
     public function show(string $id)
     {
         $student = Student::findOrFail($id);
@@ -77,7 +79,7 @@ class StudentController extends Controller
     }
 
     public function update(Request $request, string $id)
-{
+    {
     $student = Student::findOrFail($id);
 
     if (Gate::denies('edit-student', $student)) {
@@ -106,33 +108,38 @@ class StudentController extends Controller
         'age' => $request->age,
     ]);
 
-    // Task 24: Email yuborish (Updated)
+    // Task 25: Email ni queue orqali yuborish
     if ($student->user && $student->user->email) {
         Mail::to($student->user->email)
-            ->send(new StudentPosted($student, 'updated'));
+            ->queue(new StudentPosted($student, 'updated'));
     }
+
+    // Task 25: StudentJob ni dispatch qilish
+    StudentJob::dispatch($student, 'updated');
 
     return redirect()->route('students.index')
-                     ->with('success', '✅ Student ma\'lumotlari yangilandi va email yuborildi!');
-    }
+                     ->with('success', '✅ Student yangilandi! Email va log queue ga yuborildi.');
+}
 
     public function destroy(string $id)
-{
+    {
     $student = Student::findOrFail($id);
 
     if (Gate::denies('edit-student', $student)) {
         abort(403, 'Bu studentni o\'chirish huquqingiz yo\'q!');
     }
 
-    // Task 24: Email yuborish (Deleted) - O'chirishdan OLDIN!
+    // Task 25: Email va Job ni dispatch qilish (o'chirishdan OLDIN!)
     if ($student->user && $student->user->email) {
         Mail::to($student->user->email)
-            ->send(new StudentPosted($student, 'deleted'));
+            ->queue(new StudentPosted($student, 'deleted'));
     }
+
+    StudentJob::dispatch($student, 'deleted');
 
     $student->delete();
 
     return redirect()->route('students.index')
-                     ->with('success', '🗑️ Student o\'chirildi va email yuborildi!');
+                     ->with('success', '🗑️ Student o\'chirildi! Email va log queue ga yuborildi.');
     }
 }

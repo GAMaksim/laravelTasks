@@ -25,24 +25,33 @@
                     </div>
                     <div class="text-sm text-gray-500">
                         ID: {{ $student->id }}
+                        @if($student->user)
+                            | Created by: {{ $student->user->name }}
+                        @endif
                     </div>
                 </a>
                 
                 <div class="flex gap-2">
-                    <a href="{{ route('students.edit', $student->id) }}" 
-                       class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded transition">
-                        ✏️ Edit
-                    </a>
-                    
-                    <form method="POST" action="{{ route('students.destroy', $student->id) }}" 
-                          onsubmit="return confirm('O\'chirmoqchimisiz?');">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit"
-                                class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition">
-                            🗑️ Delete
-                        </button>
-                    </form>
+                    @can('edit-student', $student)
+                        <!-- Edit Button -->
+                        <a href="{{ route('students.edit', $student->id) }}" 
+                           class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded transition">
+                            ✏️ Edit
+                        </a>
+                        
+                        <!-- Delete Button -->
+                        <form method="POST" action="{{ route('students.destroy', $student->id) }}" 
+                              onsubmit="return confirm('O\'chirmoqchimisiz?');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit"
+                                    class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition">
+                                🗑️ Delete
+                            </button>
+                        </form>
+                    @else
+                        <span class="text-gray-400 text-sm italic">Ruxsat yo'q</span>
+                    @endcan
                 </div>
             </div>
         @endforeach

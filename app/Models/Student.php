@@ -1,15 +1,25 @@
-<?php 
+<?php
 
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-
-class Student extends Model {
-
+class Student extends Model
+{
     use HasFactory;
-    protected $table = "students";
-    protected $fillable = ['name', 'lastname'];
-        
+
+    protected $fillable = [
+        'name',
+        'lastname',
+        'email',
+        'age',
+        'user_id', //  Yangi field
+    ];
+
+    // Relationship: Student belongs to User
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

@@ -421,24 +421,16 @@ Potential features to add:
 ## 📸 Screenshots
 
 ### Dashboard
-![Dashboard](https://via.placeholder.com/800x450.png?text=Dashboard+Screenshot)
-*Modern dashboard with real-time statistics and recent activity*
+![Dashboard](docs/screenshots/dashboard.png)
 
-### Students Management
-![Students](https://via.placeholder.com/800x450.png?text=Students+List+Screenshot)
-*Professional table layout with search and pagination*
+### Students List
+![Students](docs/screenshots/students.png)
 
 ### Products Grid
-![Products](https://via.placeholder.com/800x450.png?text=Products+Grid+Screenshot)
-*Card-based product display with filtering options*
+![Products](docs/screenshots/products.png)
 
 ### Search Results
-![Search](https://via.placeholder.com/800x450.png?text=Search+Results+Screenshot)
-*Highlighted search results with empty state handling*
-
-### Email Notification
-![Email](https://via.placeholder.com/800x450.png?text=Email+Template+Screenshot)
-*Responsive HTML email template in Mailtrap*
+![Search](docs/screenshots/search.png)
 
 ---
 

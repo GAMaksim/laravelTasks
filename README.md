@@ -429,8 +429,14 @@ Potential features to add:
 ### Products Grid
 ![Products](docs/screenshots/products.png)
 
+### Mailtrap email
+![Products](docs/screenshots/email.png)
+
 ### Search Results
 ![Search](docs/screenshots/search.png)
+
+### Test results
+![Search](docs/screenshots/test.png)
 
 ---
 

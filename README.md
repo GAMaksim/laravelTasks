@@ -13,11 +13,10 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Laravel-12.31.1-FF2D20?style=for-the-badge&logo=laravel&logoColor=white" alt="Laravel">
-  <img src="https://img.shields.io/badge/PHP-8.4.13-777BB4?style=for-the-badge&logo=php&logoColor=white" alt="PHP">
-  <img src="https://img.shields.io/badge/TailwindCSS-3.x-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind">
-  <img src="https://img.shields.io/badge/SQLite-3.x-003B57?style=for-the-badge&logo=sqlite&logoColor=white" alt="SQLite">
-  <img src="https://img.shields.io/badge/Alpine.js-3.x-8BC0D0?style=for-the-badge&logo=alpine.js&logoColor=white" alt="Alpine.js">
+  <img src="https://img.shields.io/github/stars/GAMaksim/laravelTasks?style=for-the-badge&logo=github&color=yellow" alt="Stars">
+  <img src="https://img.shields.io/github/forks/GAMaksim/laravelTasks?style=for-the-badge&logo=github&color=blue" alt="Forks">
+  <img src="https://img.shields.io/github/watchers/GAMaksim/laravelTasks?style=for-the-badge&logo=github&color=green" alt="Watchers">
+  <img src="https://img.shields.io/github/last-commit/GAMaksim/laravelTasks?style=for-the-badge&logo=github&color=red" alt="Last Commit">
 </p>
 
 <p align="center">

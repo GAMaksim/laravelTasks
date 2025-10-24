@@ -13,6 +13,10 @@
 </p>
 
 <p align="center">
+  <img src="https://komarev.com/ghpvc/?username=GAMaksim&repo=laravelTasks&label=Repository%20Views&color=0e75b6&style=flat-square" alt="Repository Views" />
+</p>
+
+<p align="center">
   <strong>A modern and professional Laravel web application featuring CRUD operations, Authentication, Authorization, Email notifications, Background Jobs, Search functionality, and more!</strong>
 </p>
 

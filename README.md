@@ -13,10 +13,9 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/github/stars/GAMaksim/laravelTasks?style=for-the-badge&logo=github&color=yellow" alt="Stars">
-  <img src="https://img.shields.io/github/forks/GAMaksim/laravelTasks?style=for-the-badge&logo=github&color=blue" alt="Forks">
-  <img src="https://img.shields.io/github/watchers/GAMaksim/laravelTasks?style=for-the-badge&logo=github&color=green" alt="Watchers">
-  <img src="https://img.shields.io/github/last-commit/GAMaksim/laravelTasks?style=for-the-badge&logo=github&color=red" alt="Last Commit">
+  <img src="https://komarev.com/ghpvc/?username=GAMaksim&repo=laravelTasks&label=Repository%20Views&color=0088cc&style=for-the-badge" alt="Repository Views" />
+  <img src="https://img.shields.io/github/stars/GAMaksim/laravelTasks?style=for-the-badge&color=yellow&logo=github" alt="Stars">
+  <img src="https://img.shields.io/github/forks/GAMaksim/laravelTasks?style=for-the-badge&color=blue&logo=github" alt="Forks">
 </p>
 
 <p align="center">

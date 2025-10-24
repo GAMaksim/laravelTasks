@@ -13,7 +13,7 @@
 </p>
 
 <p align="center">
-  <img src="https://komarev.com/ghpvc/?username=GAMaksim&repo=laravelTasks&label=Repository%20Views&color=0e75b6&style=flat-square" alt="Repository Views" />
+  <img src="https://hits.sh/github.com/GAMaksim/laravelTasks.svg?style=flat-square&label=Views&color=blue" alt="Repository Views"/>
 </p>
 
 <p align="center">

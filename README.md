@@ -14,8 +14,6 @@
 
 <p align="center">
   <img src="https://komarev.com/ghpvc/?username=GAMaksim&repo=laravelTasks&label=Repository%20Views&color=0088cc&style=for-the-badge" alt="Repository Views" />
-  <img src="https://img.shields.io/github/stars/GAMaksim/laravelTasks?style=for-the-badge&color=yellow&logo=github" alt="Stars">
-  <img src="https://img.shields.io/github/forks/GAMaksim/laravelTasks?style=for-the-badge&color=blue&logo=github" alt="Forks">
 </p>
 
 <p align="center">
@@ -470,10 +468,10 @@ This project is open-source and available under the [MIT License](LICENSE).
 
 ## 👨‍💻 Author
 
-**Maksim Gavrilov**
+**Maksim**
 
 - GitHub: [@GAMaksim](https://github.com/GAMaksim)
-- Email: pokalenieshudes@gmail.com
+- Telegram: [@mxwlc](https://t.me/mxwlc)
 - Project Link: [https://github.com/GAMaksim/laravelTasks](https://github.com/GAMaksim/laravelTasks)
 
 ---
